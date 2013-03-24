@@ -16,14 +16,11 @@
     CALayer *hourHand;
 	CALayer *minHand;
 	CALayer *secHand;
-	NSTimer *timer;
+    NSTimer *timer;
     
     DCShadow *shadowTool;
 }
-
-//basic methods
 - (void)start;
-- (void)stop;
 
 //customize appearence
 - (void)setHourHandImage:(NSImage *)image;
@@ -34,6 +31,5 @@
 - (float)degrees2Radians:(float) degrees;
 
 - (void)initLayerWithFrame:(NSRect)frame;
-- (void)enterToFullScreen;
 
 @end

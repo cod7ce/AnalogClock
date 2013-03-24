@@ -11,58 +11,6 @@
 
 @implementation AnalogClockView
 
-- (id)initWithFrame:(NSRect)frame isPreview:(BOOL)isPreview
-{
-    self = [super initWithFrame:frame isPreview:isPreview];
-    if (self) {
-        [self setAnimationTimeInterval:1/30.0];
-        [self initLayerWithFrame:frame];
-        [self start];
-    }
-    return self;
-}
-
-- (void)startAnimation
-{
-    [super startAnimation];
-}
-
-- (void)stopAnimation
-{
-    [super stopAnimation];
-}
-
-- (void)drawRect:(NSRect)rect
-{
-    [super drawRect:rect];
-}
-
-- (void)animateOneFrame
-{
-    return;
-}
-
-- (BOOL)hasConfigureSheet
-{
-    return NO;
-}
-
-- (NSWindow*)configureSheet
-{
-    return nil;
-}
-
-- (void)start
-{
-    timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateClock:) userInfo:nil repeats:YES];
-}
-
-- (void)stop
-{
-	[timer invalidate];
-	timer = nil;
-}
-
 #define CONTAINER_WIDTH 877.0
 #define CONTAINER_HEIGHT 877.0
 #define HOUR_WIDTH 22.0
@@ -77,26 +25,62 @@
 #define SEC_HEIGHT 355.0
 #define SEC_WEI 81.0
 
+- (id)initWithFrame:(NSRect)frame isPreview:(BOOL)isPreview
+{
+    self = [super initWithFrame:frame isPreview:isPreview];
+    if (self) {
+        
+    }
+    return self;
+}
+
+-(void)drawRect:(NSRect)rect
+{
+    [self initLayerWithFrame:self.frame];
+    [self start];
+}
+
+
+- (void)animateOneFrame
+{
+    [self setNeedsDisplay:YES];
+}
+
+- (BOOL)hasConfigureSheet
+{
+    return NO;
+}
+
+- (NSWindow*)configureSheet
+{
+    return nil;
+}
+
+- (void)start
+{
+    timer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                             target:self
+                                           selector:@selector(updateClock:)
+                                           userInfo:nil
+                                            repeats:YES];
+}
+
 - (void)initLayerWithFrame:(NSRect)frame
 {
     shadowTool = [[DCShadow alloc] init];
-    NSShadow *shadow = [[NSShadow alloc] init];
-    [shadow setShadowBlurRadius:2.0];
-    [shadow setShadowColor:[NSColor blackColor]];
-    [shadow setShadowOffset:NSMakeSize(4.0, 10.0)];
     CGColorRef myShadowColor=CGColorCreateGenericRGB(0.0f,0.0f,0.0f,1.0f);
-    containerLayer = [CALayer layer];
+    
     /*
-     NSImage *backgroundImage = [NSImage imageNamed:@"timebg2.jpg"];
-     [backgroundImage setTemplate:YES];
-     [backgroundImage setSize:NSMakeSize(240.0, 240.0)];
-     [backgroundImage drawInRect:self.bounds
-     fromRect:NSMakeRect(0.0, 0.0, 240.0, 240.0)
-     operation:NSCompositeSourceAtop
-     fraction:1.0];
-     */
-    //NSLog(@"")
-    //containerLayer.contents = backgroundImage;
+    NSImage *backgroundImage = [NSImage imageNamed:@"timebg2.jpg"];
+    [backgroundImage setTemplate:YES];
+    [backgroundImage setSize:NSMakeSize(240.0, 240.0)];
+    [backgroundImage drawInRect:self.bounds
+                       fromRect:NSMakeRect(0.0, 0.0, 240.0, 240.0)
+                      operation:NSCompositeSourceAtop
+                       fraction:1.0];
+    //*/
+    
+    containerLayer = [CALayer layer];
     containerLayer.contentsGravity = kCAGravityResizeAspect;
     
     backgroundLayer = [CALayer layer];
@@ -174,8 +158,7 @@
     return degrees * M_PI / 180;
 }
 
-//timer callback
-- (void) updateClock:(NSTimer *)theTimer
+- (void) updateClock:(NSTimer *)timer
 {
 	NSDateComponents *dateComponents = [[NSCalendar currentCalendar] components:(NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:[NSDate date]];
 	NSInteger seconds = [dateComponents second];
