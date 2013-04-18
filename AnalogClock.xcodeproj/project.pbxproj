@@ -28,21 +28,20 @@
 		3FEE505E16FA19E700F26AB7 /* AnalogClock.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AnalogClock.saver; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FEE506116FA19E700F26AB7 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		3FEE506316FA19E700F26AB7 /* ScreenSaver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScreenSaver.framework; path = System/Library/Frameworks/ScreenSaver.framework; sourceTree = SDKROOT; };
-		3FEE506616FA19E700F26AB7 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		3FEE506716FA19E700F26AB7 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		3FEE506816FA19E700F26AB7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3FEE506B16FA19E700F26AB7 /* AnalogClock-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AnalogClock-Info.plist"; sourceTree = "<group>"; };
 		3FEE506D16FA19E700F26AB7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3FEE506F16FA19E700F26AB7 /* AnalogClock-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AnalogClock-Prefix.pch"; sourceTree = "<group>"; };
 		3FEE507016FA19E700F26AB7 /* AnalogClockView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnalogClockView.h; sourceTree = "<group>"; };
-		3FEE507116FA19E700F26AB7 /* AnalogClockView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnalogClockView.m; sourceTree = "<group>"; };
+		3FEE507116FA19E700F26AB7 /* AnalogClockView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AnalogClockView.m; path = AnalogClock/AnalogClockView.m; sourceTree = SOURCE_ROOT; };
 		3FEE507916FA1C8700F26AB7 /* DCShadow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCShadow.h; sourceTree = "<group>"; };
 		3FEE507A16FA1C8700F26AB7 /* DCShadow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCShadow.m; sourceTree = "<group>"; };
 		3FEE507E16FA1EDB00F26AB7 /* clockiocn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clockiocn.png; sourceTree = "<group>"; };
 		3FEE507F16FA1EDB00F26AB7 /* timebg2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = timebg2.jpg; sourceTree = "<group>"; };
 		3FEE508116FA1EDB00F26AB7 /* hour.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hour.png; sourceTree = "<group>"; };
 		3FEE508216FA1EDB00F26AB7 /* min.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = min.png; sourceTree = "<group>"; };
-		3FEE508316FA1EDB00F26AB7 /* panel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = panel.png; sourceTree = "<group>"; };
+		3FEE508316FA1EDB00F26AB7 /* panel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = panel.png; path = /Users/cipiglio/Documents/Git/Github/AnalogClock/AnalogClock/panel.png; sourceTree = "<absolute>"; };
 		3FEE508416FA1EDB00F26AB7 /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
 		3FEE508C16FA1F3900F26AB7 /* AnalogClockBackground.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnalogClockBackground.h; sourceTree = "<group>"; };
 		3FEE508D16FA1F3900F26AB7 /* AnalogClockBackground.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnalogClockBackground.m; sourceTree = "<group>"; };
@@ -94,7 +93,6 @@
 			isa = PBXGroup;
 			children = (
 				3FEE509016FA244000F26AB7 /* QuartzCore.framework */,
-				3FEE506616FA19E700F26AB7 /* AppKit.framework */,
 				3FEE506716FA19E700F26AB7 /* CoreData.framework */,
 				3FEE506816FA19E700F26AB7 /* Foundation.framework */,
 			);
@@ -322,6 +320,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				GCC_ENABLE_OBJC_GC = ARC;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AnalogClock/AnalogClock-Prefix.pch";
 				INFOPLIST_FILE = "AnalogClock/AnalogClock-Info.plist";
@@ -336,6 +335,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				GCC_ENABLE_OBJC_GC = ARC;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AnalogClock/AnalogClock-Prefix.pch";
 				INFOPLIST_FILE = "AnalogClock/AnalogClock-Info.plist";
