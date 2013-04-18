@@ -31,4 +31,8 @@
 
 - (void)drawMyGithubName;
 
+- (void)recaculateOriginSizeByFrame:(NSRect)frame;
+
+- (void)resetOriginSize;
+
 @end

@@ -11,21 +11,24 @@
 
 @implementation AnalogClockView
 
-#define CONTAINER_WIDTH 877.0
-#define CONTAINER_HEIGHT 877.0
-#define HOUR_WIDTH 22.0
-#define HOUR_HEIGHT 330.0
-#define HOUR_WEI 90.0
+float CONTAINER_WIDTH = 877.0;
+float CONTAINER_HEIGHT = 877.0;
 
-#define MIN_WIDTH 21.0
-#define MIN_HEIGHT 403.0
-#define MIN_WEI 90.0
+float HOUR_WIDTH = 22.0;
+float HOUR_HEIGHT = 330.0;
+float HOUR_DRIFT = 17.0;
+float HOUR_WEI = 90.0;
 
-#define SEC_WIDTH 33.0
-#define SEC_HEIGHT 355.0
-#define SEC_WEI 81.0
+float MIN_WIDTH = 21.0;
+float MIN_HEIGHT = 403.0;
+float MIN_DRIFT = 16.0;
+float MIN_WEI  = 90.0;
 
-bool hasDrawName = NO;
+float SEC_WIDTH  = 33.0;
+float SEC_HEIGHT  = 355.0;
+float SEC_DRIFT  = 22.0;
+float SEC_WEI  = 81.0;
+
 
 - (id)initWithFrame:(NSRect)frame isPreview:(BOOL)isPreview
 {
@@ -72,6 +75,7 @@ bool hasDrawName = NO;
 
 - (void)initLayerWithFrame:(NSRect)frame
 {
+    [self recaculateOriginSizeByFrame:frame];
     NSBundle *bundle = [NSBundle bundleForClass:[self class]];
     NSString *clock  = [bundle pathForResource:@"panel" ofType:@"png"];
     NSString *hour   = [bundle pathForResource:@"hour" ofType:@"png"];
@@ -92,7 +96,7 @@ bool hasDrawName = NO;
     backgroundLayer.anchorPoint = NSMakePoint(0.501, 0.5);
     
     hourHand = [CALayer layer];
-    hourHand.position = CGPointMake((CONTAINER_WIDTH-HOUR_WIDTH)/2+17, CONTAINER_HEIGHT/2);
+    hourHand.position = CGPointMake((CONTAINER_WIDTH-HOUR_WIDTH)/2+HOUR_DRIFT, CONTAINER_HEIGHT/2);
     hourHand.anchorPoint = NSMakePoint(0.5, 0.25);
     hourHand.bounds = NSMakeRect(0,0, HOUR_WIDTH, HOUR_HEIGHT);
     hourHand.shadowColor = myShadowColor;
@@ -101,7 +105,7 @@ bool hasDrawName = NO;
     hourHand.shadowOpacity = 0.4;
     
     minHand = [CALayer layer];
-    minHand.position = CGPointMake(CONTAINER_WIDTH/2 - MIN_WIDTH/2+16, CONTAINER_HEIGHT/2);
+    minHand.position = CGPointMake((CONTAINER_WIDTH - MIN_WIDTH)/2+MIN_DRIFT, CONTAINER_HEIGHT/2);
     minHand.anchorPoint = NSMakePoint(0.5, 0.22);
     minHand.bounds = NSMakeRect(0, 0, MIN_WIDTH, MIN_HEIGHT);
     minHand.shadowColor = myShadowColor;
@@ -110,8 +114,8 @@ bool hasDrawName = NO;
     minHand.shadowOpacity = 0.4;
     
     secHand = [CALayer layer];
-    secHand.position = CGPointMake((CONTAINER_WIDTH-SEC_WIDTH)/2+22.0, CONTAINER_HEIGHT/2);
-    secHand.anchorPoint = NSMakePoint(0.5, SEC_WEI/SEC_HEIGHT);
+    secHand.position = CGPointMake((CONTAINER_WIDTH-SEC_WIDTH)/2+SEC_DRIFT, CONTAINER_HEIGHT/2);
+    secHand.anchorPoint = NSMakePoint(0.5, 0.23);
     secHand.bounds = NSMakeRect(0, 0, SEC_WIDTH, SEC_HEIGHT);
     secHand.shadowColor = myShadowColor;
     secHand.shadowOffset = NSMakeSize(-5.0, 5.0);
@@ -134,6 +138,7 @@ bool hasDrawName = NO;
     [self setLayer:containerLayer];
     [self setWantsLayer:YES];
     //*/
+    [self resetOriginSize];
 }
 
 - (float)degrees2Radians:(float) degrees;
@@ -165,6 +170,53 @@ bool hasDrawName = NO;
 	secHand.transform   = CATransform3DMakeRotation (M_PI-secAngle, 0, 0, 1);
 	minHand.transform   = CATransform3DMakeRotation (M_PI-minAngle, 0, 0, 1);
 	hourHand.transform  = CATransform3DMakeRotation (M_PI-hourAngle, 0, 0, 1);
+}
+
+- (void)recaculateOriginSizeByFrame:(NSRect)frame
+{
+    if (frame.size.width < CONTAINER_WIDTH || frame.size.height < CONTAINER_HEIGHT) {
+        float widthRatio  = frame.size.width/CONTAINER_WIDTH;
+        float heightRatio = frame.size.height/CONTAINER_HEIGHT;
+        float ratio = widthRatio > heightRatio ? heightRatio : widthRatio;
+        
+        CONTAINER_WIDTH *= ratio;
+        CONTAINER_HEIGHT *= ratio;
+
+        HOUR_WIDTH *= ratio;
+        HOUR_HEIGHT *= ratio;
+        HOUR_DRIFT  *= ratio;
+        
+        MIN_WIDTH *= ratio;
+        MIN_HEIGHT *= ratio;
+        MIN_DRIFT *= ratio;
+        
+        SEC_WIDTH  *= ratio;
+        SEC_HEIGHT  *= ratio;
+        SEC_DRIFT *= ratio;
+
+    }
+}
+
+- (void)resetOriginSize
+{
+    CONTAINER_WIDTH = 877.0;
+    CONTAINER_HEIGHT = 877.0;
+    
+    HOUR_WIDTH = 22.0;
+    HOUR_HEIGHT = 330.0;
+    HOUR_DRIFT = 17.0;
+    HOUR_WEI = 90.0;
+    
+    MIN_WIDTH = 21.0;
+    MIN_HEIGHT = 403.0;
+    MIN_DRIFT = 16.0;
+    MIN_WEI  = 90.0;
+    
+    SEC_WIDTH  = 33.0;
+    SEC_HEIGHT  = 355.0;
+    SEC_DRIFT  = 22.0;
+    SEC_WEI  = 81.0;
+
 }
 
 - (void) drawMyGithubName
