@@ -7,7 +7,7 @@
 //
 
 #import "AnalogClockView.h"
-#import "AnalogClockBackground.h"
+//#import "AnalogClockBackground.h"
 
 @implementation AnalogClockView
 
@@ -25,25 +25,38 @@
 #define SEC_HEIGHT 355.0
 #define SEC_WEI 81.0
 
+bool hasDrawName = NO;
+
 - (id)initWithFrame:(NSRect)frame isPreview:(BOOL)isPreview
 {
     self = [super initWithFrame:frame isPreview:isPreview];
     if (self) {
-        
+        shadowTool = [[DCShadow alloc] init];
+        [self setAnimationTimeInterval:1.0];
     }
     return self;
 }
 
--(void)drawRect:(NSRect)rect
+- (id)initWithCoder:(NSCoder *)aDecoder
 {
-    [self initLayerWithFrame:self.frame];
-    [self start];
+    return [self initWithFrame:NSZeroRect isPreview:NO];
 }
 
+- (void)startAnimation
+{
+    [super startAnimation];
+    [self initLayerWithFrame: self.frame];
+    
+}
+- (void)drawRect:(NSRect)rect
+{
+    [super drawRect:rect];
+    
+}
 
 - (void)animateOneFrame
 {
-    [self setNeedsDisplay:YES];
+    [self updateClock];
 }
 
 - (BOOL)hasConfigureSheet
@@ -56,32 +69,21 @@
     return nil;
 }
 
-- (void)start
-{
-    timer = [NSTimer scheduledTimerWithTimeInterval:1.0
-                                             target:self
-                                           selector:@selector(updateClock:)
-                                           userInfo:nil
-                                            repeats:YES];
-}
 
 - (void)initLayerWithFrame:(NSRect)frame
 {
-    shadowTool = [[DCShadow alloc] init];
-    CGColorRef myShadowColor=CGColorCreateGenericRGB(0.0f,0.0f,0.0f,1.0f);
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    NSString *clock  = [bundle pathForResource:@"panel" ofType:@"png"];
+    NSString *hour   = [bundle pathForResource:@"hour" ofType:@"png"];
+    NSString *min    = [bundle pathForResource:@"min" ofType:@"png"];
+    NSString *sec    = [bundle pathForResource:@"second" ofType:@"png"];
     
-    /*
-    NSImage *backgroundImage = [NSImage imageNamed:@"timebg2.jpg"];
-    [backgroundImage setTemplate:YES];
-    [backgroundImage setSize:NSMakeSize(240.0, 240.0)];
-    [backgroundImage drawInRect:self.bounds
-                       fromRect:NSMakeRect(0.0, 0.0, 240.0, 240.0)
-                      operation:NSCompositeSourceAtop
-                       fraction:1.0];
-    //*/
+    //*
+    CGColorRef myShadowColor=CGColorCreateGenericRGB(0.0f,0.0f,0.0f,1.0f);
     
     containerLayer = [CALayer layer];
     containerLayer.contentsGravity = kCAGravityResizeAspect;
+    containerLayer.backgroundColor = CGColorCreateGenericRGB(0.7f, 0.1f, 0.5f, 1.0f);
     
     backgroundLayer = [CALayer layer];
     NSRect containerFrame = NSMakeRect((frame.size.width-CONTAINER_WIDTH)/2, (frame.size.height-CONTAINER_HEIGHT)/2, CONTAINER_WIDTH, CONTAINER_HEIGHT);
@@ -119,10 +121,10 @@
     CGColorRelease(myShadowColor);
     
     //default appearance
-    [self setClockBackgroundImage:[NSImage imageNamed:@"panel.png"]];
-    [self setHourHandImage:[NSImage imageNamed:@"hour.png"]];
-    [self setMinHandImage:[NSImage imageNamed:@"min.png"]];
-    [self setSecHandImage:[NSImage imageNamed:@"second.png"]];
+    backgroundLayer.contents = [[NSImage alloc] initWithContentsOfFile:clock];
+    hourHand.contents = [[NSImage alloc] initWithContentsOfFile:hour];
+    minHand.contents = [[NSImage alloc] initWithContentsOfFile:min];
+    secHand.contents = [[NSImage alloc] initWithContentsOfFile:sec];
     
     //add all created sublayers
     [backgroundLayer addSublayer:hourHand];
@@ -131,26 +133,7 @@
     [containerLayer addSublayer:backgroundLayer];
     [self setLayer:containerLayer];
     [self setWantsLayer:YES];
-}
-
-- (void)setHourHandImage:(NSImage *)image
-{
-    hourHand.contents = image;
-}
-
-- (void)setMinHandImage:(NSImage *)image
-{
-	minHand.contents = image;
-}
-
-- (void)setSecHandImage:(NSImage *)image
-{
-    secHand.contents = image;
-}
-
-- (void)setClockBackgroundImage:(NSImage *)image
-{
-    backgroundLayer.contents = image;
+    //*/
 }
 
 - (float)degrees2Radians:(float) degrees;
@@ -158,9 +141,10 @@
     return degrees * M_PI / 180;
 }
 
-- (void) updateClock:(NSTimer *)timer
+- (void) updateClock
 {
-	NSDateComponents *dateComponents = [[NSCalendar currentCalendar] components:(NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:[NSDate date]];
+	NSDateComponents *dateComponents = [[NSCalendar currentCalendar] components:(NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit)
+                                                                       fromDate:[NSDate date]];
 	NSInteger seconds = [dateComponents second];
 	NSInteger minutes = [dateComponents minute];
 	NSInteger hours = [dateComponents hour];
@@ -183,5 +167,33 @@
 	hourHand.transform  = CATransform3DMakeRotation (M_PI-hourAngle, 0, 0, 1);
 }
 
+- (void) drawMyGithubName
+{
+    int width = [self frame].size.width;
+    // int height = [self frame].size.height;
+    
+    NSPoint pt = NSMakePoint(width - 200, 10);
+    float strSize = 18.f;
+    
+    //NSColor *back = [NSColor blackColor];
+    //NSRect rect = NSMakeRect(width-210, 10, 200, 40);
+    
+    NSColor *color = [NSColor redColor];
+    
+    //NSDate *currentDate = [NSDate date];
+    //NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    //[dateFormatter setDateFormat:@"yyyy:MM:dd HH:mm:ss:SSS"];
+    //NSString *dateString = [dateFormatter stringFromDate:currentDate];
+    
+    NSMutableAttributedString* str = [[NSMutableAttributedString alloc] initWithString:@"Paper, cod7ce@gmail.com"];
+    [str addAttribute:NSFontAttributeName value:[NSFont fontWithName:@"Times" size:strSize] range:NSMakeRange(0, 23)];
+    [str addAttribute:NSForegroundColorAttributeName value:color range:NSMakeRange(0, 23)];
+    
+    //[[NSColor redColor] set];
+    //[NSBezierPath fillRect:rect];
+    
+    
+    [str drawAtPoint:pt];
+}
 
 @end

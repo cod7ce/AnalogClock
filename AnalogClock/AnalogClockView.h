@@ -20,16 +20,15 @@
     
     DCShadow *shadowTool;
 }
-- (void)start;
 
 //customize appearence
-- (void)setHourHandImage:(NSImage *)image;
-- (void)setMinHandImage:(NSImage *)image;
-- (void)setSecHandImage:(NSImage *)image;
-- (void)setClockBackgroundImage:(NSImage *)image;
 
 - (float)degrees2Radians:(float) degrees;
 
 - (void)initLayerWithFrame:(NSRect)frame;
+
+- (void)updateClock;
+
+- (void)drawMyGithubName;
 
 @end
