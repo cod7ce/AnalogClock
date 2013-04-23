@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3F0EFA8016FB4AD100095A94 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FEE509016FA244000F26AB7 /* QuartzCore.framework */; };
+		3F6FB863172677BF00246368 /* BasicAnimationFatory.h in Headers */ = {isa = PBXBuildFile; fileRef = 3F6FB861172677BF00246368 /* BasicAnimationFatory.h */; };
+		3F6FB864172677BF00246368 /* BasicAnimationFatory.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F6FB862172677BF00246368 /* BasicAnimationFatory.m */; };
 		3FEE506216FA19E700F26AB7 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FEE506116FA19E700F26AB7 /* Cocoa.framework */; };
 		3FEE506416FA19E700F26AB7 /* ScreenSaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FEE506316FA19E700F26AB7 /* ScreenSaver.framework */; };
 		3FEE506E16FA19E700F26AB7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3FEE506C16FA19E700F26AB7 /* InfoPlist.strings */; };
@@ -15,7 +17,6 @@
 		3FEE507B16FA1C8700F26AB7 /* DCShadow.h in Headers */ = {isa = PBXBuildFile; fileRef = 3FEE507916FA1C8700F26AB7 /* DCShadow.h */; };
 		3FEE507C16FA1C8700F26AB7 /* DCShadow.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FEE507A16FA1C8700F26AB7 /* DCShadow.m */; };
 		3FEE508516FA1EDB00F26AB7 /* clockiocn.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FEE507E16FA1EDB00F26AB7 /* clockiocn.png */; };
-		3FEE508616FA1EDB00F26AB7 /* timebg2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3FEE507F16FA1EDB00F26AB7 /* timebg2.jpg */; };
 		3FEE508816FA1EDB00F26AB7 /* hour.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FEE508116FA1EDB00F26AB7 /* hour.png */; };
 		3FEE508916FA1EDB00F26AB7 /* min.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FEE508216FA1EDB00F26AB7 /* min.png */; };
 		3FEE508A16FA1EDB00F26AB7 /* panel.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FEE508316FA1EDB00F26AB7 /* panel.png */; };
@@ -25,6 +26,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3F6FB861172677BF00246368 /* BasicAnimationFatory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasicAnimationFatory.h; sourceTree = "<group>"; };
+		3F6FB862172677BF00246368 /* BasicAnimationFatory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasicAnimationFatory.m; sourceTree = "<group>"; };
 		3FEE505E16FA19E700F26AB7 /* AnalogClock.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AnalogClock.saver; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FEE506116FA19E700F26AB7 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		3FEE506316FA19E700F26AB7 /* ScreenSaver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScreenSaver.framework; path = System/Library/Frameworks/ScreenSaver.framework; sourceTree = SDKROOT; };
@@ -38,7 +41,6 @@
 		3FEE507916FA1C8700F26AB7 /* DCShadow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCShadow.h; sourceTree = "<group>"; };
 		3FEE507A16FA1C8700F26AB7 /* DCShadow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCShadow.m; sourceTree = "<group>"; };
 		3FEE507E16FA1EDB00F26AB7 /* clockiocn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clockiocn.png; sourceTree = "<group>"; };
-		3FEE507F16FA1EDB00F26AB7 /* timebg2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = timebg2.jpg; sourceTree = "<group>"; };
 		3FEE508116FA1EDB00F26AB7 /* hour.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hour.png; sourceTree = "<group>"; };
 		3FEE508216FA1EDB00F26AB7 /* min.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = min.png; sourceTree = "<group>"; };
 		3FEE508316FA1EDB00F26AB7 /* panel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = panel.png; path = /Users/cipiglio/Documents/Git/Github/AnalogClock/AnalogClock/panel.png; sourceTree = "<absolute>"; };
@@ -128,6 +130,8 @@
 			children = (
 				3FEE507916FA1C8700F26AB7 /* DCShadow.h */,
 				3FEE507A16FA1C8700F26AB7 /* DCShadow.m */,
+				3F6FB861172677BF00246368 /* BasicAnimationFatory.h */,
+				3F6FB862172677BF00246368 /* BasicAnimationFatory.m */,
 			);
 			name = tool;
 			sourceTree = "<group>";
@@ -136,7 +140,6 @@
 			isa = PBXGroup;
 			children = (
 				3FEE507E16FA1EDB00F26AB7 /* clockiocn.png */,
-				3FEE507F16FA1EDB00F26AB7 /* timebg2.jpg */,
 				3FEE508116FA1EDB00F26AB7 /* hour.png */,
 				3FEE508216FA1EDB00F26AB7 /* min.png */,
 				3FEE508316FA1EDB00F26AB7 /* panel.png */,
@@ -154,6 +157,7 @@
 			files = (
 				3FEE507B16FA1C8700F26AB7 /* DCShadow.h in Headers */,
 				3FEE508E16FA1F3900F26AB7 /* AnalogClockBackground.h in Headers */,
+				3F6FB863172677BF00246368 /* BasicAnimationFatory.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -212,7 +216,6 @@
 			files = (
 				3FEE506E16FA19E700F26AB7 /* InfoPlist.strings in Resources */,
 				3FEE508516FA1EDB00F26AB7 /* clockiocn.png in Resources */,
-				3FEE508616FA1EDB00F26AB7 /* timebg2.jpg in Resources */,
 				3FEE508816FA1EDB00F26AB7 /* hour.png in Resources */,
 				3FEE508916FA1EDB00F26AB7 /* min.png in Resources */,
 				3FEE508A16FA1EDB00F26AB7 /* panel.png in Resources */,
@@ -240,6 +243,7 @@
 				3FEE507216FA19E700F26AB7 /* AnalogClockView.m in Sources */,
 				3FEE507C16FA1C8700F26AB7 /* DCShadow.m in Sources */,
 				3FEE508F16FA1F3900F26AB7 /* AnalogClockBackground.m in Sources */,
+				3F6FB864172677BF00246368 /* BasicAnimationFatory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

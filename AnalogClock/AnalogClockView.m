@@ -29,7 +29,7 @@ float SEC_HEIGHT  = 355.0;
 float SEC_DRIFT  = 22.0;
 float SEC_WEI  = 81.0;
 
-
+int ss = 0;
 - (id)initWithFrame:(NSRect)frame isPreview:(BOOL)isPreview
 {
     self = [super initWithFrame:frame isPreview:isPreview];
@@ -77,6 +77,7 @@ float SEC_WEI  = 81.0;
 {
     [self recaculateOriginSizeByFrame:frame];
     NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    NSString *bg     = @"/Users/cipiglio/Pictures/Wallpaper/Zebras.jpg";//[bundle pathForResource:@"Zebras" ofType:@"jpg"];
     NSString *clock  = [bundle pathForResource:@"panel" ofType:@"png"];
     NSString *hour   = [bundle pathForResource:@"hour" ofType:@"png"];
     NSString *min    = [bundle pathForResource:@"min" ofType:@"png"];
@@ -86,14 +87,39 @@ float SEC_WEI  = 81.0;
     CGColorRef myShadowColor=CGColorCreateGenericRGB(0.0f,0.0f,0.0f,1.0f);
     
     containerLayer = [CALayer layer];
-    containerLayer.contentsGravity = kCAGravityResizeAspect;
     containerLayer.backgroundColor = CGColorCreateGenericRGB(0.7f, 0.1f, 0.5f, 1.0f);
+    containerLayer.bounds = frame;
     
+    // ----------------------------------------------------------------------------------
     backgroundLayer = [CALayer layer];
+    backgroundLayer.contentsGravity = kCAGravityResizeAspect;
+    NSImageRep *imgObj = [NSImageRep imageRepWithContentsOfFile:bg];    
+    //backgroundLayer.frame = NSMakeRect(frame.origin.x, frame.origin.y, [imgObj pixelsWide], [imgObj pixelsHigh]);
+    NSScreen *screen = [NSScreen mainScreen];
+    float xx = screen.frame.size.width  - [imgObj pixelsWide];
+    float yy = screen.frame.size.height - [imgObj pixelsHigh];
+    
+    float randomx = SSRandomFloatBetween(xx/3, 0.0);
+    float randomy = SSRandomFloatBetween(yy/3, 0.0);
+    
+    NSRect randomFrame = NSMakeRect(-200,
+                                    -200,
+                                    1920,
+                                    1600);
+    backgroundLayer.frame = randomFrame;//NSMakeRect(0.0, 0.0, [imgObj pixelsWide], [imgObj pixelsHigh]);
+    
+    //backgroundLayer.frame = randomFrame;
+    
+    NSImage *bgi = [[NSImage alloc] initWithSize:randomFrame.size];
+    [bgi addRepresentation:imgObj];
+    backgroundLayer.contents = bgi;
+    // ----------------------------------------------------------------------------------
+    
+    clockLayer = [CALayer layer];
     NSRect containerFrame = NSMakeRect((frame.size.width-CONTAINER_WIDTH)/2, (frame.size.height-CONTAINER_HEIGHT)/2, CONTAINER_WIDTH, CONTAINER_HEIGHT);
-    backgroundLayer.frame = containerFrame;
-    //backgroundLayer.position = NSMakePoint(CONTAINER_WIDTH/2+15.0, CONTAINER_HEIGHT/2);
-    backgroundLayer.anchorPoint = NSMakePoint(0.501, 0.5);
+    clockLayer.frame = containerFrame;
+    //clockLayer.position = NSMakePoint(CONTAINER_WIDTH/2+15.0, CONTAINER_HEIGHT/2);
+    clockLayer.anchorPoint = NSMakePoint(0.501, 0.5);
     
     hourHand = [CALayer layer];
     hourHand.position = CGPointMake((CONTAINER_WIDTH-HOUR_WIDTH)/2+HOUR_DRIFT, CONTAINER_HEIGHT/2);
@@ -125,16 +151,18 @@ float SEC_WEI  = 81.0;
     CGColorRelease(myShadowColor);
     
     //default appearance
-    backgroundLayer.contents = [[NSImage alloc] initWithContentsOfFile:clock];
+    clockLayer.contents = [[NSImage alloc] initWithContentsOfFile:clock];
     hourHand.contents = [[NSImage alloc] initWithContentsOfFile:hour];
     minHand.contents = [[NSImage alloc] initWithContentsOfFile:min];
     secHand.contents = [[NSImage alloc] initWithContentsOfFile:sec];
     
     //add all created sublayers
-    [backgroundLayer addSublayer:hourHand];
-    [backgroundLayer addSublayer:minHand];
-    [backgroundLayer addSublayer:secHand];
+    [clockLayer addSublayer:hourHand];
+    [clockLayer addSublayer:minHand];
+    [clockLayer addSublayer:secHand];
+    
     [containerLayer addSublayer:backgroundLayer];
+    [containerLayer addSublayer:clockLayer];
     [self setLayer:containerLayer];
     [self setWantsLayer:YES];
     //*/
@@ -148,6 +176,7 @@ float SEC_WEI  = 81.0;
 
 - (void) updateClock
 {
+    ss++;
 	NSDateComponents *dateComponents = [[NSCalendar currentCalendar] components:(NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit)
                                                                        fromDate:[NSDate date]];
 	NSInteger seconds = [dateComponents second];
@@ -170,6 +199,13 @@ float SEC_WEI  = 81.0;
 	secHand.transform   = CATransform3DMakeRotation (M_PI-secAngle, 0, 0, 1);
 	minHand.transform   = CATransform3DMakeRotation (M_PI-minAngle, 0, 0, 1);
 	hourHand.transform  = CATransform3DMakeRotation (M_PI-hourAngle, 0, 0, 1);
+    if(ss == 1)
+    {
+        CABasicAnimation *f = [BasicAnimationFatory movepoint:CGPointMake(-100.0f, -100.0f)];
+        CABasicAnimation *m = [BasicAnimationFatory scale:[NSNumber numberWithFloat:1.3f] orgin:[NSNumber numberWithFloat:1.0f] duration:15.0f Rep:FLT_MAX];
+        [backgroundLayer addAnimation:f forKey:@"move"];
+        [backgroundLayer addAnimation:m forKey:@"scale"];
+    }
 }
 
 - (void)recaculateOriginSizeByFrame:(NSRect)frame

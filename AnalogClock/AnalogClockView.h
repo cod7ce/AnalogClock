@@ -7,12 +7,15 @@
 //
 
 #import <ScreenSaver/ScreenSaver.h>
+#import <QuartzCore/QuartzCore.h>
 #import "DCShadow.h"
+#import "BasicAnimationFatory.h"
 
 @interface AnalogClockView : ScreenSaverView
 {
     CALayer *containerLayer;
     CALayer *backgroundLayer;
+    CALayer *clockLayer;
     CALayer *hourHand;
 	CALayer *minHand;
 	CALayer *secHand;
