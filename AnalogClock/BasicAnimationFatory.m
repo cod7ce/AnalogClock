@@ -34,8 +34,35 @@
     animation.duration=time;
     animation.removedOnCompletion=NO;
     animation.fillMode=kCAFillModeForwards;
-    animation.timingFunction=[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    animation.timingFunction=[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn] ;
     animation.autoreverses=YES;
+    return  animation;
+}
+
+// 有逐渐展现的动画
++(CABasicAnimation *)fadeInAnimationDuration:(float)time
+{
+    CABasicAnimation *animation=[CABasicAnimation animationWithKeyPath:@"opacity"];
+    animation.fromValue=[NSNumber numberWithFloat:0.0];
+    animation.toValue=[NSNumber numberWithFloat:1.0];
+    animation.duration=time;
+    animation.removedOnCompletion=YES;
+    animation.fillMode=kCAFillModeForwards;
+    animation.timingFunction=[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn] ;
+    return  animation;
+}
+
+// 有逐渐消失的动画
++(CABasicAnimation *)fadeOutAnimationDuration:(float)time BeginTime:(float)bt
+{
+    CABasicAnimation *animation=[CABasicAnimation animationWithKeyPath:@"opacity"];
+    animation.fromValue=[NSNumber numberWithFloat:1.0];
+    animation.toValue=[NSNumber numberWithFloat:0.0];
+    animation.duration=time;
+    animation.removedOnCompletion=YES;
+    animation.fillMode=kCAFillModeForwards;
+    animation.beginTime = CACurrentMediaTime() + bt;
+    animation.timingFunction=[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn] ;
     return  animation;
 }
 
@@ -68,9 +95,8 @@
     animation.fromValue=orginMultiple;
     animation.toValue=Multiple;
     animation.duration=time;
-    animation.autoreverses=YES;
     animation.repeatCount=repeatTimes;
-    animation.removedOnCompletion=NO;
+    animation.removedOnCompletion=YES;
     animation.fillMode=kCAFillModeForwards;
     return animation;
 }
@@ -106,9 +132,9 @@
 {
     CABasicAnimation *animation=[CABasicAnimation animationWithKeyPath:@"transform.translation"];
     animation.toValue=[NSValue valueWithPoint:point];
-    animation.removedOnCompletion=NO;
+    animation.removedOnCompletion=YES;
     animation.fillMode=kCAFillModeForwards;
-    animation.duration=5.0f;
+    animation.duration=8.0f;
     return animation;
 }
 

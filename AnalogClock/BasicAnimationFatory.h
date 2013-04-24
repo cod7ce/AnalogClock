@@ -13,6 +13,8 @@
 
 +(CABasicAnimation *)opacityForever_Animation:(float)time;
 +(CABasicAnimation *)opacityTimes_Animation:(float)repeatTimes duration:(float)time;
++(CABasicAnimation *)fadeInAnimationDuration:(float)time;
++(CABasicAnimation *)fadeOutAnimationDuration:(float)time BeginTime:(float)bt;
 +(CABasicAnimation *)moveX:(float)time X:(NSNumber *)x;
 +(CABasicAnimation *)moveY:(float)time Y:(NSNumber *)y;
 +(CABasicAnimation *)scale:(NSNumber *)Multiple orgin:(NSNumber *)orginMultiple duration:(float)time Rep:(float)repeatTimes;
