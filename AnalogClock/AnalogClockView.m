@@ -85,7 +85,7 @@ int ss = 0;
     CGColorRef myShadowColor=CGColorCreateGenericRGB(0.0f,0.0f,0.0f,1.0f);
     
     containerLayer = [CALayer layer];
-    containerLayer.backgroundColor = CGColorCreateGenericRGB(0.7f, 0.1f, 0.5f, 1.0f);
+    containerLayer.backgroundColor = CGColorCreateGenericRGB(1.0f, 1.0f, 1.0f, 1.0f);
     containerLayer.bounds = frame;
     
     // ----------------------------------------------------------------------------------

@@ -59,8 +59,17 @@ int order = 0;
 
 - (void)start
 {
+    [self stop];
     [self kenBurns:nil];
-    timer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(kenBurns:) userInfo:nil repeats:YES];
+    timer = [NSTimer scheduledTimerWithTimeInterval:8.0 target:self selector:@selector(kenBurns:) userInfo:nil repeats:YES];
+}
+
+- (void)stop
+{
+    if (timer != nil) {
+        [timer invalidate];
+        [timer release];
+    }
 }
 
 - (void)kenBurns:(NSTimer *)timer
@@ -68,30 +77,36 @@ int order = 0;
     if (order >= self.imgArray.count){
         order = 0;
     }
-    [self removeAllAnimations];
+    
     NSImage *img = [self.imgArray objectAtIndex:order];
     float x = ([NSScreen mainScreen].frame.size.width - img.size.width) / 2;
     float y = ([NSScreen mainScreen].frame.size.height - img.size.height) / 2;
     self.frame = NSMakeRect(x, y, img.size.width, img.size.height);
     
+    //CABasicAnimation *fi = [BasicAnimationFatory fadeInAnimationDuration:1.0f];
+    //CABasicAnimation *fo = [BasicAnimationFatory fadeOutAnimationDuration:1.0f BeginTime:4.0f];
+    
     int ratiox   = arc4random() % (int)2*x;
     int ratioy   = arc4random() % (int)2*y;
     CABasicAnimation *f = [BasicAnimationFatory movepoint:CGPointMake(ratiox, ratioy)];
     
-    int seed     = arc4random() % 5;
+    int seed     = arc4random() % 3;
     int inorout  = arc4random() % 2;
     float scale  = inorout == 0 ? 1.0f : (1.0f+seed*0.1f);
     float origin = inorout == 1 ? 1.0f : (1.0f+seed*0.1f);
     
     CABasicAnimation *m = [BasicAnimationFatory scale:[NSNumber numberWithFloat:scale]
                                                 orgin:[NSNumber numberWithFloat:origin]
-                                             duration:10.0f
+                                             duration:8.0f
                                                   Rep:1];
-    //CABasicAnimation *o = [BasicAnimationFatory opacityTimes_Animation:1 duration:10.0];
-    [self addAnimation:f forKey:@"move"];
-    [self addAnimation:m forKey:@"scale"];
-    //[self addAnimation:o forKey:@"opacity"];
+    //[self removeAllAnimations];
+    
+    //[self addAnimation:fi forKey:@"fadeIn"];
+    [self addAnimation:f  forKey:@"move"];
+    [self addAnimation:m  forKey:@"scale"];
+    //[self addAnimation:fo forKey:@"fadeOut"];
     self.contents =  img;
+
     order++;
 }
 
@@ -99,8 +114,7 @@ int order = 0;
 {
     [self.imgArray release];
     [fileManager release];
-    [timer invalidate];
-    [timer release];
+    [self stop];
     [super dealloc];
 }
 
