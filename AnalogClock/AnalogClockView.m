@@ -49,12 +49,10 @@ int ss = 0;
 {
     [super startAnimation];
     [self initLayerWithFrame: self.frame];
-    
 }
 - (void)drawRect:(NSRect)rect
 {
     [super drawRect:rect];
-    
 }
 
 - (void)animateOneFrame
@@ -77,7 +75,7 @@ int ss = 0;
 {
     [self recaculateOriginSizeByFrame:frame];
     NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-    NSString *bg     = @"/Users/cipiglio/Pictures/Wallpaper/Zebras.jpg";//[bundle pathForResource:@"Zebras" ofType:@"jpg"];
+    NSString *bg     = @"/Users/cipiglio/Pictures/Wallpaper/纸房子@WEB/";//[bundle pathForResource:@"Zebras" ofType:@"jpg"];
     NSString *clock  = [bundle pathForResource:@"panel" ofType:@"png"];
     NSString *hour   = [bundle pathForResource:@"hour" ofType:@"png"];
     NSString *min    = [bundle pathForResource:@"min" ofType:@"png"];
@@ -91,28 +89,8 @@ int ss = 0;
     containerLayer.bounds = frame;
     
     // ----------------------------------------------------------------------------------
-    backgroundLayer = [CALayer layer];
-    backgroundLayer.contentsGravity = kCAGravityResizeAspect;
-    NSImageRep *imgObj = [NSImageRep imageRepWithContentsOfFile:bg];    
-    //backgroundLayer.frame = NSMakeRect(frame.origin.x, frame.origin.y, [imgObj pixelsWide], [imgObj pixelsHigh]);
-    NSScreen *screen = [NSScreen mainScreen];
-    float xx = screen.frame.size.width  - [imgObj pixelsWide];
-    float yy = screen.frame.size.height - [imgObj pixelsHigh];
-    
-    float randomx = SSRandomFloatBetween(xx/3, 0.0);
-    float randomy = SSRandomFloatBetween(yy/3, 0.0);
-    
-    NSRect randomFrame = NSMakeRect(-200,
-                                    -200,
-                                    1920,
-                                    1600);
-    backgroundLayer.frame = randomFrame;//NSMakeRect(0.0, 0.0, [imgObj pixelsWide], [imgObj pixelsHigh]);
-    
-    //backgroundLayer.frame = randomFrame;
-    
-    NSImage *bgi = [[NSImage alloc] initWithSize:randomFrame.size];
-    [bgi addRepresentation:imgObj];
-    backgroundLayer.contents = bgi;
+    backgroundLayer = [[AnalogClockBackground alloc] initWithPath: bg];
+    [backgroundLayer start];
     // ----------------------------------------------------------------------------------
     
     clockLayer = [CALayer layer];
@@ -199,13 +177,6 @@ int ss = 0;
 	secHand.transform   = CATransform3DMakeRotation (M_PI-secAngle, 0, 0, 1);
 	minHand.transform   = CATransform3DMakeRotation (M_PI-minAngle, 0, 0, 1);
 	hourHand.transform  = CATransform3DMakeRotation (M_PI-hourAngle, 0, 0, 1);
-    if(ss == 1)
-    {
-        CABasicAnimation *f = [BasicAnimationFatory movepoint:CGPointMake(-100.0f, -100.0f)];
-        CABasicAnimation *m = [BasicAnimationFatory scale:[NSNumber numberWithFloat:1.3f] orgin:[NSNumber numberWithFloat:1.0f] duration:15.0f Rep:FLT_MAX];
-        [backgroundLayer addAnimation:f forKey:@"move"];
-        [backgroundLayer addAnimation:m forKey:@"scale"];
-    }
 }
 
 - (void)recaculateOriginSizeByFrame:(NSRect)frame

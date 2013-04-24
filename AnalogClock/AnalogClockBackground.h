@@ -7,10 +7,19 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <QuartzCore/QuartzCore.h>
+#import "BasicAnimationFatory.h"
 
-@interface AnalogClockBackground : NSView
+@interface AnalogClockBackground : CALayer
 {
-    NSColor *customBackgroundColour;
+    NSMutableArray *imgArray;
+    NSFileManager *fileManager;
+    NSTimer *timer;
 }
 
+@property (retain, nonatomic) NSMutableArray *imgArray;
+
+- (id)initWithPath:(NSString *)path;
+- (void)getImagesByPath:(NSString *)dir WeatherRecursion:(Boolean) recursion;
+- (void)start;
 @end

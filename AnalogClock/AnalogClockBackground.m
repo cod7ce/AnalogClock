@@ -10,27 +10,124 @@
 
 @implementation AnalogClockBackground
 
-- (id)initWithFrame:(NSRect)frame 
+float ratio = 0.3f;
+int order = 0;
+
+@synthesize imgArray;
+
+- (id)initWithPath:(NSString *)path
 {
-    if (self = [super initWithFrame:frame]) 
+    self = [super init];
+    if (self)
     {
-        customBackgroundColour = [NSColor colorWithPatternImage:[NSImage imageNamed:@"timebg2.jpg"]];
-        NSLog(@"nihao drawRect: %@",customBackgroundColour);
+        self.imgArray = [NSMutableArray array];
+        fileManager = [NSFileManager defaultManager];
+        [self getImagesByPath:path WeatherRecursion:NO];
     }
     return self;
 }
 
-// DRAW
-- (void)drawRect:(NSRect)dirtyRect 
+- (void)getImagesByPath:(NSString *)dir WeatherRecursion:(Boolean) recursion
 {
-    // Draw the background
-    //NSGraphicsContext* theContext = [NSGraphicsContext currentContext];
-    //[theContext saveGraphicsState];
-    //[[NSGraphicsContext currentContext] setPatternPhase:NSMakePoint(0,[self frame].size.height)];
-    [customBackgroundColour set];
-    NSRectFill([self bounds]);
-    //[theContext restoreGraphicsState];
-    NSLog(@"nihao drawRect: %@",customBackgroundColour);
+    NSArray *dirArray = [fileManager contentsOfDirectoryAtPath:dir error:nil];
+    BOOL isDir = NO;
+    for (NSString *file in dirArray)
+    {
+        NSString *path = [dir stringByAppendingPathComponent:file];
+        [fileManager fileExistsAtPath:path isDirectory:(&isDir)];
+        if (isDir)
+        {
+            if (recursion)
+            {
+                [self getImagesByPath:path WeatherRecursion:recursion];
+            }
+        }
+        else
+        {
+            if ([self isImageExtend:path])
+            {
+                
+                NSImageRep *imgObj = [NSImageRep imageRepWithContentsOfFile:path];
+                NSImage * image = [[NSImage alloc] initWithSize:[self makeSuitableSizeWithOriginSize:NSMakeSize([imgObj pixelsWide], [imgObj pixelsHigh])]];
+                [image addRepresentation:imgObj];
+                [imgArray addObject:image];
+            }
+        }
+        isDir = NO;
+    }
 }
+
+- (void)start
+{
+    timer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(kenBurns:) userInfo:nil repeats:YES];
+}
+
+- (void)kenBurns:(NSTimer *)timer
+{
+    if (order >= self.imgArray.count){
+        order = 0;
+    }
+    [self removeAllAnimations];
+    NSImage *img = [self.imgArray objectAtIndex:order];
+    float x = ([NSScreen mainScreen].frame.size.width - img.size.width) / 2;
+    float y = ([NSScreen mainScreen].frame.size.height - img.size.height) / 2;
+    self.frame = NSMakeRect(x, y, img.size.width, img.size.height);
+    CABasicAnimation *f = [BasicAnimationFatory movepoint:CGPointMake(x/2, y/2)];
+    CABasicAnimation *m = [BasicAnimationFatory scale:[NSNumber numberWithFloat:1.2f] orgin:[NSNumber numberWithFloat:1.0f] duration:5.0f Rep:1];
+    [self addAnimation:f forKey:@"move"];
+    [self addAnimation:m forKey:@"scale"];
+    self.contents =  img;
+    order++;
+}
+
+- (void)dealloc
+{
+    [self.imgArray release];
+    [fileManager release];
+    [timer invalidate];
+    [timer release];
+    [super dealloc];
+}
+
+// 判断是否是图片（通过后缀判断）
+-(BOOL)isImageExtend:(NSString *)path
+{
+    BOOL flag = NO;
+    NSArray*  extends		= [[path lastPathComponent] componentsSeparatedByString:@"."];
+    NSString* extend        = [extends objectAtIndex:[extends count] - 1];
+    if([extend isEqualToString:@"jpg"] || [extend isEqualToString:@"png"] )
+    {
+        flag = YES;
+    }
+    return flag;
+}
+
+- (NSSize)makeSuitableSizeWithOriginSize:(NSSize) originsize
+{
+    NSSize screensize = [NSScreen mainScreen].frame.size;
+    float diffw = originsize.width - screensize.width;
+    float diffh = originsize.height - screensize.height;
+    
+    if ( diffw <= ratio*screensize.width || diffh <= ratio*screensize.height)
+    {
+        return originsize;
+    }
+    else
+    {
+        float tmpw, tmph;
+        if (diffw <= diffh)
+        {
+            tmpw = screensize.width*(1+ratio);
+            tmph = (originsize.height*tmpw)/originsize.width;
+        }
+        else
+        {
+            tmph = screensize.height*(1+ratio);
+            tmpw = (originsize.width*tmph)/originsize.height;
+        }
+        return NSMakeSize(tmpw, tmph);
+    }
+}
+
 
 @end
