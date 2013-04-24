@@ -59,6 +59,7 @@ int order = 0;
 
 - (void)start
 {
+    [self kenBurns:nil];
     timer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(kenBurns:) userInfo:nil repeats:YES];
 }
 
@@ -72,10 +73,24 @@ int order = 0;
     float x = ([NSScreen mainScreen].frame.size.width - img.size.width) / 2;
     float y = ([NSScreen mainScreen].frame.size.height - img.size.height) / 2;
     self.frame = NSMakeRect(x, y, img.size.width, img.size.height);
-    CABasicAnimation *f = [BasicAnimationFatory movepoint:CGPointMake(x/2, y/2)];
-    CABasicAnimation *m = [BasicAnimationFatory scale:[NSNumber numberWithFloat:1.2f] orgin:[NSNumber numberWithFloat:1.0f] duration:5.0f Rep:1];
+    
+    int ratiox   = arc4random() % (int)2*x;
+    int ratioy   = arc4random() % (int)2*y;
+    CABasicAnimation *f = [BasicAnimationFatory movepoint:CGPointMake(ratiox, ratioy)];
+    
+    int seed     = arc4random() % 5;
+    int inorout  = arc4random() % 2;
+    float scale  = inorout == 0 ? 1.0f : (1.0f+seed*0.1f);
+    float origin = inorout == 1 ? 1.0f : (1.0f+seed*0.1f);
+    
+    CABasicAnimation *m = [BasicAnimationFatory scale:[NSNumber numberWithFloat:scale]
+                                                orgin:[NSNumber numberWithFloat:origin]
+                                             duration:10.0f
+                                                  Rep:1];
+    //CABasicAnimation *o = [BasicAnimationFatory opacityTimes_Animation:1 duration:10.0];
     [self addAnimation:f forKey:@"move"];
     [self addAnimation:m forKey:@"scale"];
+    //[self addAnimation:o forKey:@"opacity"];
     self.contents =  img;
     order++;
 }

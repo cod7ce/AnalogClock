@@ -29,12 +29,12 @@
 {
     CABasicAnimation *animation=[CABasicAnimation animationWithKeyPath:@"opacity"];
     animation.fromValue=[NSNumber numberWithFloat:1.0];
-    animation.toValue=[NSNumber numberWithFloat:0.4];
+    animation.toValue=[NSNumber numberWithFloat:0.6];
     animation.repeatCount=repeatTimes;
     animation.duration=time;
     animation.removedOnCompletion=NO;
     animation.fillMode=kCAFillModeForwards;
-    animation.timingFunction=[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+    animation.timingFunction=[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
     animation.autoreverses=YES;
     return  animation;
 }
@@ -108,7 +108,7 @@
     animation.toValue=[NSValue valueWithPoint:point];
     animation.removedOnCompletion=NO;
     animation.fillMode=kCAFillModeForwards;
-    animation.duration=15.0f;
+    animation.duration=5.0f;
     return animation;
 }
 
