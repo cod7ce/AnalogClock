@@ -18,6 +18,9 @@ There are three option for AnalogClock.
 - Recursion:
 - Editor Panel:
 
+## Licence
+
+Licenced under the MIT Licence.
  
 ## Support
 
