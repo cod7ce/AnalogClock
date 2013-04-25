@@ -22,6 +22,10 @@
     NSTimer *timer;
     
     DCShadow *shadowTool;
+    
+    IBOutlet NSWindow    *configureSheet;
+    IBOutlet NSTextField *urlField;
+    IBOutlet NSButton    *editorPanelChecker;
 }
 
 //customize appearence

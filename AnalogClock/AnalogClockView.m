@@ -29,11 +29,16 @@ float SEC_HEIGHT  = 355.0;
 float SEC_DRIFT  = 22.0;
 float SEC_WEI  = 81.0;
 
-int ss = 0;
+NSString *ModuleName  = @"com.zhifangzi.analogclock";
+NSString *EditorPanel = @"EditorPanel";
+NSString *GalleryPath = @"GalleryPath";
+
 - (id)initWithFrame:(NSRect)frame isPreview:(BOOL)isPreview
 {
     self = [super initWithFrame:frame isPreview:isPreview];
     if (self) {
+        ScreenSaverDefaults *defaults = [ScreenSaverDefaults defaultsForModuleWithName:ModuleName];
+        [defaults registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:@"YES", EditorPanel, @"~/Pictures/", GalleryPath, nil]];
         shadowTool = [[DCShadow alloc] init];
         [self setAnimationTimeInterval:1.0];
     }
@@ -62,12 +67,19 @@ int ss = 0;
 
 - (BOOL)hasConfigureSheet
 {
-    return NO;
+    return YES;
 }
 
 - (NSWindow*)configureSheet
 {
-    return nil;
+    if (!configureSheet) {
+        [NSBundle loadNibNamed:@"ConfigureSheet" owner:self];
+    }
+    
+    ScreenSaverDefaults *defaults = [ScreenSaverDefaults defaultsForModuleWithName:ModuleName];
+    [urlField setStringValue:[[defaults URLForKey:GalleryPath] absoluteString]];
+	[editorPanelChecker setState:[defaults boolForKey:EditorPanel]];
+    return configureSheet;
 }
 
 
@@ -75,7 +87,6 @@ int ss = 0;
 {
     [self recaculateOriginSizeByFrame:frame];
     NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-    NSString *bg     = @"/Users/cipiglio/Pictures/Wallpaper/纸房子@WEB/";//[bundle pathForResource:@"Zebras" ofType:@"jpg"];
     NSString *clock  = [bundle pathForResource:@"panel" ofType:@"png"];
     NSString *hour   = [bundle pathForResource:@"hour" ofType:@"png"];
     NSString *min    = [bundle pathForResource:@"min" ofType:@"png"];
@@ -89,7 +100,9 @@ int ss = 0;
     containerLayer.bounds = frame;
     
     // ----------------------------------------------------------------------------------
-    backgroundLayer = [[AnalogClockBackground alloc] initWithPath: bg];
+    ScreenSaverDefaults *defaults = [ScreenSaverDefaults defaultsForModuleWithName:ModuleName];
+
+    backgroundLayer = [[AnalogClockBackground alloc] initWithPath: [[defaults URLForKey:GalleryPath] absoluteString]];
     [backgroundLayer start];
     // ----------------------------------------------------------------------------------
     
@@ -154,7 +167,6 @@ int ss = 0;
 
 - (void) updateClock
 {
-    ss++;
 	NSDateComponents *dateComponents = [[NSCalendar currentCalendar] components:(NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit)
                                                                        fromDate:[NSDate date]];
 	NSInteger seconds = [dateComponents second];
@@ -253,6 +265,21 @@ int ss = 0;
     
     
     [str drawAtPoint:pt];
+}
+
+- (IBAction)cancelClick:(id)sender
+{
+	[[NSApplication sharedApplication] endSheet:configureSheet];
+}
+
+- (IBAction)okClick:(id)sender
+{
+	ScreenSaverDefaults *defaults = [ScreenSaverDefaults defaultsForModuleWithName:ModuleName];
+    [defaults setURL:[NSURL URLWithString:[urlField stringValue]] forKey:GalleryPath];
+	[defaults setBool:[editorPanelChecker state] forKey:EditorPanel];
+	[defaults synchronize];
+    
+    [self cancelClick:nil];
 }
 
 @end
