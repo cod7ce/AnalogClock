@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3F0EFA8016FB4AD100095A94 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FEE509016FA244000F26AB7 /* QuartzCore.framework */; };
+		3F284AB617292F1300C6F3DB /* ConfigureSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3F284AB517292F1300C6F3DB /* ConfigureSheet.xib */; };
 		3F6FB863172677BF00246368 /* BasicAnimationFatory.h in Headers */ = {isa = PBXBuildFile; fileRef = 3F6FB861172677BF00246368 /* BasicAnimationFatory.h */; };
 		3F6FB864172677BF00246368 /* BasicAnimationFatory.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F6FB862172677BF00246368 /* BasicAnimationFatory.m */; };
 		3FEE506216FA19E700F26AB7 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FEE506116FA19E700F26AB7 /* Cocoa.framework */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3F284AB517292F1300C6F3DB /* ConfigureSheet.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfigureSheet.xib; sourceTree = "<group>"; };
 		3F6FB861172677BF00246368 /* BasicAnimationFatory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasicAnimationFatory.h; sourceTree = "<group>"; };
 		3F6FB862172677BF00246368 /* BasicAnimationFatory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasicAnimationFatory.m; sourceTree = "<group>"; };
 		3FEE505E16FA19E700F26AB7 /* AnalogClock.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AnalogClock.saver; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -121,6 +123,7 @@
 				3FEE506B16FA19E700F26AB7 /* AnalogClock-Info.plist */,
 				3FEE506C16FA19E700F26AB7 /* InfoPlist.strings */,
 				3FEE506F16FA19E700F26AB7 /* AnalogClock-Prefix.pch */,
+				3F284AB517292F1300C6F3DB /* ConfigureSheet.xib */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -220,6 +223,7 @@
 				3FEE508916FA1EDB00F26AB7 /* min.png in Resources */,
 				3FEE508A16FA1EDB00F26AB7 /* panel.png in Resources */,
 				3FEE508B16FA1EDB00F26AB7 /* second.png in Resources */,
+				3F284AB617292F1300C6F3DB /* ConfigureSheet.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

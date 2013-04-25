@@ -60,6 +60,9 @@ int order = 0;
 - (void)start
 {
     [self stop];
+    if (self.imgArray.count == 0) {
+        return;
+    }
     [self kenBurns:nil];
     timer = [NSTimer scheduledTimerWithTimeInterval:8.0 target:self selector:@selector(kenBurns:) userInfo:nil repeats:YES];
 }
