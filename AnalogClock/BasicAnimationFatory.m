@@ -46,7 +46,7 @@
     animation.fromValue=[NSNumber numberWithFloat:0.0];
     animation.toValue=[NSNumber numberWithFloat:1.0];
     animation.duration=time;
-    animation.removedOnCompletion=YES;
+    animation.removedOnCompletion=NO;
     animation.fillMode=kCAFillModeForwards;
     animation.timingFunction=[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn] ;
     return  animation;
@@ -56,10 +56,10 @@
 +(CABasicAnimation *)fadeOutAnimationDuration:(float)time BeginTime:(float)bt
 {
     CABasicAnimation *animation=[CABasicAnimation animationWithKeyPath:@"opacity"];
-    animation.fromValue=[NSNumber numberWithFloat:1.0];
+    //animation.fromValue=[NSNumber numberWithFloat:1.0];
     animation.toValue=[NSNumber numberWithFloat:0.0];
     animation.duration=time;
-    animation.removedOnCompletion=YES;
+    animation.removedOnCompletion=NO;
     animation.fillMode=kCAFillModeForwards;
     animation.beginTime = CACurrentMediaTime() + bt;
     animation.timingFunction=[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn] ;
