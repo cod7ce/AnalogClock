@@ -15,14 +15,14 @@ int order = 0;
 
 @synthesize imgArray;
 
-- (id)initWithPath:(NSString *)path
+- (id)initWithPath:(NSString *)path WeatherRecursion:(BOOL)recursion
 {
     self = [super init];
     if (self)
     {
         self.imgArray = [NSMutableArray array];
         fileManager = [NSFileManager defaultManager];
-        [self getImagesByPath:path WeatherRecursion:NO];
+        [self getImagesByPath:path WeatherRecursion:recursion];
     }
     return self;
 }

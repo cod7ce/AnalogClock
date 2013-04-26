@@ -112,7 +112,8 @@ NSString *DefaultPath = @"~/Pictures";
     // ----------------------------------------------------------------------------------
     ScreenSaverDefaults *defaults = [ScreenSaverDefaults defaultsForModuleWithName:ModuleName];
 
-    backgroundLayer = [[AnalogClockBackground alloc] initWithPath: [defaults stringForKey:GalleryPath]];
+    backgroundLayer = [[AnalogClockBackground alloc] initWithPath: [defaults stringForKey:GalleryPath]
+                                                 WeatherRecursion: [defaults boolForKey:RecursionPath]];
     [backgroundLayer start];
     // ----------------------------------------------------------------------------------
     

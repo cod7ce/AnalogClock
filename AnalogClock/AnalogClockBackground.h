@@ -19,7 +19,7 @@
 
 @property (retain, nonatomic) NSMutableArray *imgArray;
 
-- (id)initWithPath:(NSString *)path;
+- (id)initWithPath:(NSString *)path WeatherRecursion:(BOOL)recursion;
 - (void)getImagesByPath:(NSString *)dir WeatherRecursion:(Boolean) recursion;
 - (void)start;
 @end
