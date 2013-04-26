@@ -5,6 +5,8 @@ AnalogClock is a ScreenSaver on Mac OS X.
 
 ## Preview
 
+<img src="preview.png" alt="AnalogClock" />
+
 ## Install
 
 - download the AnalogClock from [here]()
