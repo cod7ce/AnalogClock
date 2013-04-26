@@ -17,7 +17,6 @@
 		3FEE507216FA19E700F26AB7 /* AnalogClockView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FEE507116FA19E700F26AB7 /* AnalogClockView.m */; };
 		3FEE507B16FA1C8700F26AB7 /* DCShadow.h in Headers */ = {isa = PBXBuildFile; fileRef = 3FEE507916FA1C8700F26AB7 /* DCShadow.h */; };
 		3FEE507C16FA1C8700F26AB7 /* DCShadow.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FEE507A16FA1C8700F26AB7 /* DCShadow.m */; };
-		3FEE508516FA1EDB00F26AB7 /* clockiocn.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FEE507E16FA1EDB00F26AB7 /* clockiocn.png */; };
 		3FEE508816FA1EDB00F26AB7 /* hour.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FEE508116FA1EDB00F26AB7 /* hour.png */; };
 		3FEE508916FA1EDB00F26AB7 /* min.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FEE508216FA1EDB00F26AB7 /* min.png */; };
 		3FEE508A16FA1EDB00F26AB7 /* panel.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FEE508316FA1EDB00F26AB7 /* panel.png */; };
@@ -42,7 +41,6 @@
 		3FEE507116FA19E700F26AB7 /* AnalogClockView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AnalogClockView.m; path = AnalogClock/AnalogClockView.m; sourceTree = SOURCE_ROOT; };
 		3FEE507916FA1C8700F26AB7 /* DCShadow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCShadow.h; sourceTree = "<group>"; };
 		3FEE507A16FA1C8700F26AB7 /* DCShadow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCShadow.m; sourceTree = "<group>"; };
-		3FEE507E16FA1EDB00F26AB7 /* clockiocn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clockiocn.png; sourceTree = "<group>"; };
 		3FEE508116FA1EDB00F26AB7 /* hour.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hour.png; sourceTree = "<group>"; };
 		3FEE508216FA1EDB00F26AB7 /* min.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = min.png; sourceTree = "<group>"; };
 		3FEE508316FA1EDB00F26AB7 /* panel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = panel.png; path = /Users/cipiglio/Documents/Git/Github/AnalogClock/AnalogClock/panel.png; sourceTree = "<absolute>"; };
@@ -142,7 +140,6 @@
 		3FEE507D16FA1EBA00F26AB7 /* images */ = {
 			isa = PBXGroup;
 			children = (
-				3FEE507E16FA1EDB00F26AB7 /* clockiocn.png */,
 				3FEE508116FA1EDB00F26AB7 /* hour.png */,
 				3FEE508216FA1EDB00F26AB7 /* min.png */,
 				3FEE508316FA1EDB00F26AB7 /* panel.png */,
@@ -218,7 +215,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3FEE506E16FA19E700F26AB7 /* InfoPlist.strings in Resources */,
-				3FEE508516FA1EDB00F26AB7 /* clockiocn.png in Resources */,
 				3FEE508816FA1EDB00F26AB7 /* hour.png in Resources */,
 				3FEE508916FA1EDB00F26AB7 /* min.png in Resources */,
 				3FEE508A16FA1EDB00F26AB7 /* panel.png in Resources */,

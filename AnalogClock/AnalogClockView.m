@@ -32,13 +32,16 @@ float SEC_WEI  = 81.0;
 NSString *ModuleName  = @"com.zhifangzi.analogclock";
 NSString *EditorPanel = @"EditorPanel";
 NSString *GalleryPath = @"GalleryPath";
+NSString *RecursionPath = @"RecursionPath";
+
+NSString *DefaultPath = @"~/Pictures";
 
 - (id)initWithFrame:(NSRect)frame isPreview:(BOOL)isPreview
 {
     self = [super initWithFrame:frame isPreview:isPreview];
     if (self) {
         ScreenSaverDefaults *defaults = [ScreenSaverDefaults defaultsForModuleWithName:ModuleName];
-        [defaults registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:@"YES", EditorPanel, @"~/Pictures/", GalleryPath, nil]];
+        [defaults registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:@"YES", EditorPanel, @"NO", RecursionPath, @"~/Pictures/", GalleryPath, nil]];
         shadowTool = [[DCShadow alloc] init];
         [self setAnimationTimeInterval:1.0];
     }
@@ -77,8 +80,15 @@ NSString *GalleryPath = @"GalleryPath";
     }
     
     ScreenSaverDefaults *defaults = [ScreenSaverDefaults defaultsForModuleWithName:ModuleName];
-    [urlField setStringValue:[[defaults URLForKey:GalleryPath] absoluteString]];
+    if (![DefaultPath isEqualToString:[defaults stringForKey:GalleryPath]]) {
+        [selfPathRadios selectCellAtRow:1 column:0];
+        [urlField setStringValue:[defaults stringForKey:GalleryPath]];
+    }else{
+        [selfPathRadios selectCellAtRow:0 column:0];
+        [urlField setStringValue:@""];
+    }
 	[editorPanelChecker setState:[defaults boolForKey:EditorPanel]];
+    [recursionChecker setState:[defaults boolForKey:RecursionPath]];
     return configureSheet;
 }
 
@@ -102,7 +112,7 @@ NSString *GalleryPath = @"GalleryPath";
     // ----------------------------------------------------------------------------------
     ScreenSaverDefaults *defaults = [ScreenSaverDefaults defaultsForModuleWithName:ModuleName];
 
-    backgroundLayer = [[AnalogClockBackground alloc] initWithPath: [[defaults URLForKey:GalleryPath] absoluteString]];
+    backgroundLayer = [[AnalogClockBackground alloc] initWithPath: [defaults stringForKey:GalleryPath]];
     [backgroundLayer start];
     // ----------------------------------------------------------------------------------
     
@@ -267,6 +277,26 @@ NSString *GalleryPath = @"GalleryPath";
     [str drawAtPoint:pt];
 }
 
+// 路径选择，并根据判断设置存储路径
+-(IBAction)selectedPath:(id)sender
+{
+    NSOpenPanel *pathSelector = [NSOpenPanel openPanel];
+    [pathSelector setCanChooseFiles:FALSE];
+    [pathSelector setCanChooseDirectories:TRUE];
+    [pathSelector setCanCreateDirectories:TRUE];
+    [pathSelector setAllowsMultipleSelection:FALSE];
+    [pathSelector setDirectoryURL:[NSURL fileURLWithPath:NSHomeDirectory()]];
+    
+    [pathSelector setTitle:NSLocalizedString(@"func_dir", nil)];
+    NSInteger i = [pathSelector runModal];
+    
+    if(i == NSOKButton)
+    {
+        NSURL *theFilePath = [[pathSelector URLs] objectAtIndex:0];
+        [urlField setStringValue:[theFilePath path]];
+    }
+}
+
 - (IBAction)cancelClick:(id)sender
 {
 	[[NSApplication sharedApplication] endSheet:configureSheet];
@@ -275,7 +305,17 @@ NSString *GalleryPath = @"GalleryPath";
 - (IBAction)okClick:(id)sender
 {
 	ScreenSaverDefaults *defaults = [ScreenSaverDefaults defaultsForModuleWithName:ModuleName];
-    [defaults setURL:[NSURL URLWithString:[urlField stringValue]] forKey:GalleryPath];
+    
+    NSInteger r = [selfPathRadios selectedRow];
+    if(r == 1 && ![[urlField stringValue] isEqualToString:@""])
+    {
+        [defaults setValue:[urlField stringValue] forKey:GalleryPath];
+    }
+    else
+    {
+        [defaults setValue:DefaultPath forKey:GalleryPath];
+    }
+    [defaults setBool:[recursionChecker state] forKey:RecursionPath];
 	[defaults setBool:[editorPanelChecker state] forKey:EditorPanel];
 	[defaults synchronize];
     

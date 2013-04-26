@@ -24,7 +24,9 @@
     DCShadow *shadowTool;
     
     IBOutlet NSWindow    *configureSheet;
+    IBOutlet NSMatrix    *selfPathRadios;
     IBOutlet NSTextField *urlField;
+    IBOutlet NSButton    *recursionChecker;
     IBOutlet NSButton    *editorPanelChecker;
 }
 
