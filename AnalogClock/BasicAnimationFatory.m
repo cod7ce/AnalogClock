@@ -2,8 +2,8 @@
 //  BasicAnimationFatory.m
 //  AnalogClock
 //
-//  Created by cipiglio on 4/23/13.
-//  Copyright (c) 2013 cod7ce. All rights reserved.
+//  Created by cod7ce on 4/23/13.
+//  Copyright (c) 2013 纸房子. All rights reserved.
 //
 
 #import "BasicAnimationFatory.h"
