@@ -15,6 +15,7 @@
 {
     CALayer *containerLayer;
     AnalogClockBackground *backgroundLayer;
+    CALayer *editorLayer;
     CALayer *clockLayer;
     CALayer *hourHand;
 	CALayer *minHand;
@@ -23,11 +24,13 @@
     
     DCShadow *shadowTool;
     
+    // Settings Panel
     IBOutlet NSWindow    *configureSheet;
     IBOutlet NSMatrix    *selfPathRadios;
     IBOutlet NSTextField *urlField;
     IBOutlet NSButton    *recursionChecker;
     IBOutlet NSButton    *editorPanelChecker;
+
 }
 
 //customize appearence
@@ -38,7 +41,7 @@
 
 - (void)updateClock;
 
-- (void)drawMyGithubName;
+- (void)showEditorLayer;
 
 - (void)recaculateOriginSizeByFrame:(NSRect)frame;
 

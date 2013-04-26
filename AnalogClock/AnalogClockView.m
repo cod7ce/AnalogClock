@@ -29,6 +29,8 @@ float SEC_HEIGHT  = 355.0;
 float SEC_DRIFT  = 22.0;
 float SEC_WEI  = 81.0;
 
+NSBundle *bundle;
+
 NSString *ModuleName  = @"com.zhifangzi.analogclock";
 NSString *EditorPanel = @"EditorPanel";
 NSString *GalleryPath = @"GalleryPath";
@@ -36,10 +38,13 @@ NSString *RecursionPath = @"RecursionPath";
 
 NSString *DefaultPath = @"~/Pictures";
 
+NSString *Account = @"cod7ce@gmail.com";
+
 - (id)initWithFrame:(NSRect)frame isPreview:(BOOL)isPreview
 {
     self = [super initWithFrame:frame isPreview:isPreview];
     if (self) {
+        bundle = [NSBundle bundleForClass:[self class]];
         ScreenSaverDefaults *defaults = [ScreenSaverDefaults defaultsForModuleWithName:ModuleName];
         [defaults registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:@"YES", EditorPanel, @"NO", RecursionPath, @"~/Pictures/", GalleryPath, nil]];
         shadowTool = [[DCShadow alloc] init];
@@ -96,7 +101,6 @@ NSString *DefaultPath = @"~/Pictures";
 - (void)initLayerWithFrame:(NSRect)frame
 {
     [self recaculateOriginSizeByFrame:frame];
-    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
     NSString *clock  = [bundle pathForResource:@"panel" ofType:@"png"];
     NSString *hour   = [bundle pathForResource:@"hour" ofType:@"png"];
     NSString *min    = [bundle pathForResource:@"min" ofType:@"png"];
@@ -165,6 +169,11 @@ NSString *DefaultPath = @"~/Pictures";
     
     [containerLayer addSublayer:backgroundLayer];
     [containerLayer addSublayer:clockLayer];
+    
+    if ([defaults boolForKey:EditorPanel]) {
+        [self showEditorLayer];
+    }
+    
     [self setLayer:containerLayer];
     [self setWantsLayer:YES];
     //*/
@@ -249,33 +258,48 @@ NSString *DefaultPath = @"~/Pictures";
 
 }
 
-- (void) drawMyGithubName
+- (void) showEditorLayer
 {
-    int width = [self frame].size.width;
-    // int height = [self frame].size.height;
+    editorLayer = [CALayer layer];
+    NSSize screenSize = [NSScreen mainScreen].frame.size;
+    editorLayer.frame = NSMakeRect(screenSize.width - 210, screenSize.height - 59, 200, 49);
+    editorLayer.backgroundColor = CGColorCreateGenericRGB(1.0f, 1.0f, 1.0f, 1.0f);
+    editorLayer.opacity = 0.9f;
+    editorLayer.shadowColor = CGColorCreateGenericRGB(0.0f, 0.0f, 0.0f, 1.0f);
+    editorLayer.shadowOffset = NSMakeSize(3.0, -3.0);
+    editorLayer.shadowRadius = 1.5;
+    editorLayer.shadowOpacity = 0.4;
+    editorLayer.cornerRadius = 2.0f;
     
-    NSPoint pt = NSMakePoint(width - 200, 10);
-    float strSize = 18.f;
+    CABasicAnimation *fadeout = [BasicAnimationFatory fadeOutAnimationDuration:2.0f BeginTime:10.0f];
+    [editorLayer addAnimation:fadeout forKey:@"hideeditorpanel"];
     
-    //NSColor *back = [NSColor blackColor];
-    //NSRect rect = NSMakeRect(width-210, 10, 200, 40);
+    CALayer *avatarLayer = [CALayer layer];
+    avatarLayer.frame = NSMakeRect(2, 2, 45, 45);
+    NSString *avatar  = [bundle pathForResource:@"avatar_64" ofType:@"jpg"];
+    avatarLayer.contents = [[NSImage alloc] initWithContentsOfFile:avatar];
+    avatarLayer.cornerRadius = 1.5f;
     
-    NSColor *color = [NSColor redColor];
+    CALayer *socialLayer = [CALayer layer];
+    socialLayer.frame = NSMakeRect(52, 0, 85, 25);
+    NSString *social  = [bundle pathForResource:@"social" ofType:@"png"];
+    socialLayer.contents = [[NSImage alloc] initWithContentsOfFile:social];
+
     
-    //NSDate *currentDate = [NSDate date];
-    //NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    //[dateFormatter setDateFormat:@"yyyy:MM:dd HH:mm:ss:SSS"];
-    //NSString *dateString = [dateFormatter stringFromDate:currentDate];
+    CATextLayer *accountLayer = [CATextLayer layer];
+    [accountLayer setString:Account];
+    [accountLayer setFontSize:14.0f];
+    accountLayer.foregroundColor = CGColorCreateGenericRGB(0.0f, 0.0f, 0.0f, 1.0f);
+    accountLayer.shadowColor = CGColorCreateGenericRGB(0.0f, 0.0f, 0.0f, 1.0f);
+    accountLayer.shadowOffset = NSMakeSize(0.5, -0.5);
+    accountLayer.shadowRadius = 0.5;
+    accountLayer.shadowOpacity = 0.4;
+    accountLayer.frame = NSMakeRect(59, 24, 170, 18);
     
-    NSMutableAttributedString* str = [[NSMutableAttributedString alloc] initWithString:@"Paper, cod7ce@gmail.com"];
-    [str addAttribute:NSFontAttributeName value:[NSFont fontWithName:@"Times" size:strSize] range:NSMakeRange(0, 23)];
-    [str addAttribute:NSForegroundColorAttributeName value:color range:NSMakeRange(0, 23)];
-    
-    //[[NSColor redColor] set];
-    //[NSBezierPath fillRect:rect];
-    
-    
-    [str drawAtPoint:pt];
+    [editorLayer addSublayer:avatarLayer];
+    [editorLayer addSublayer:socialLayer];
+    [editorLayer addSublayer:accountLayer];
+    [containerLayer addSublayer:editorLayer];
 }
 
 // 路径选择，并根据判断设置存储路径
