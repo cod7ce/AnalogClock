@@ -96,7 +96,7 @@
     animation.toValue=Multiple;
     animation.duration=time;
     animation.repeatCount=repeatTimes;
-    animation.removedOnCompletion=YES;
+    animation.removedOnCompletion=NO;
     animation.fillMode=kCAFillModeForwards;
     return animation;
 }
@@ -132,7 +132,7 @@
 {
     CABasicAnimation *animation=[CABasicAnimation animationWithKeyPath:@"transform.translation"];
     animation.toValue=[NSValue valueWithPoint:point];
-    animation.removedOnCompletion=YES;
+    animation.removedOnCompletion=NO;
     animation.fillMode=kCAFillModeForwards;
     animation.duration=8.0f;
     return animation;

@@ -12,6 +12,7 @@
 
 float ratio = 0.3f;
 int order = 0;
+int timercount = 0;
 
 @synthesize imgArray;
 
@@ -22,6 +23,7 @@ int order = 0;
     {
         self.imgArray = [NSMutableArray array];
         fileManager = [NSFileManager defaultManager];
+        self.frame = [NSScreen mainScreen].frame;
         [self getImagesByPath:path WeatherRecursion:recursion];
     }
     return self;
@@ -59,12 +61,15 @@ int order = 0;
 
 - (void)start
 {
-    [self stop];
+    //[self stop];
     if (self.imgArray.count == 0) {
         return;
     }
-    [self kenBurns:nil];
-    timer = [NSTimer scheduledTimerWithTimeInterval:8.0 target:self selector:@selector(kenBurns:) userInfo:nil repeats:YES];
+    // 为缓存背景图片，需要添加两层自图层
+    [self addSublayer:[self makeImageLayer:0.0f]];
+    [self addSublayer:[CALayer layer]];
+    //timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(kenBurns:) userInfo:nil repeats:YES];
+    //[timer fire];
 }
 
 - (void)stop
@@ -77,6 +82,10 @@ int order = 0;
 
 - (void)kenBurns:(NSTimer *)timer
 {
+}
+
+- (CALayer *)makeImageLayer:(float)delay
+{
     if (order >= self.imgArray.count){
         order = 0;
     }
@@ -84,14 +93,16 @@ int order = 0;
     NSImage *img = [self.imgArray objectAtIndex:order];
     float x = ([NSScreen mainScreen].frame.size.width - img.size.width) / 2;
     float y = ([NSScreen mainScreen].frame.size.height - img.size.height) / 2;
-    self.frame = NSMakeRect(x, y, img.size.width, img.size.height);
+    CALayer *sublayer = [CALayer layer];
+    sublayer.frame = NSMakeRect(x, y, img.size.width, img.size.height);
     
     //CABasicAnimation *fi = [BasicAnimationFatory fadeInAnimationDuration:1.0f];
-    //CABasicAnimation *fo = [BasicAnimationFatory fadeOutAnimationDuration:1.0f BeginTime:4.0f];
+    CABasicAnimation *fo = [BasicAnimationFatory fadeOutAnimationDuration:2.0f BeginTime:delay+6.0f];
     
-    int ratiox   = arc4random() % (int)2*x;
-    int ratioy   = arc4random() % (int)2*y;
+    int ratiox   = arc4random() % (int)2*sublayer.frame.origin.x;
+    int ratioy   = arc4random() % (int)2*sublayer.frame.origin.y;
     CABasicAnimation *f = [BasicAnimationFatory movepoint:CGPointMake(ratiox, ratioy)];
+    f.beginTime = CACurrentMediaTime() + delay;
     
     int seed     = arc4random() % 3;
     int inorout  = arc4random() % 2;
@@ -102,15 +113,35 @@ int order = 0;
                                                 orgin:[NSNumber numberWithFloat:origin]
                                              duration:8.0f
                                                   Rep:1];
-    //[self removeAllAnimations];
+    m.beginTime = CACurrentMediaTime() + delay;
+    [m setDelegate:self];
+    
     
     //[self addAnimation:fi forKey:@"fadeIn"];
-    [self addAnimation:f  forKey:@"move"];
-    [self addAnimation:m  forKey:@"scale"];
-    //[self addAnimation:fo forKey:@"fadeOut"];
-    self.contents =  img;
-
+    [sublayer addAnimation:f  forKey:@"move"];
+    [sublayer addAnimation:m  forKey:@"scale"];
+    [sublayer addAnimation:fo forKey:@"fadeOut"];
+    
+    sublayer.contents = img;
     order++;
+    return sublayer;
+}
+
+- (void)addAnimationWithDelayTime:(float)delay
+{
+    
+}
+
+- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
+{
+    CALayer *layer = [self.sublayers lastObject];
+    [layer removeAllAnimations];
+    [layer removeFromSuperlayer];
+}
+
+- (void)animationDidStart:(CAAnimation *)anim
+{
+    [self insertSublayer:[self makeImageLayer:6.0f] atIndex:0];
 }
 
 - (void)dealloc
