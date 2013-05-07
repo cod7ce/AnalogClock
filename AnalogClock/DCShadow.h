@@ -13,7 +13,7 @@
     float modulus;
 }
 
-@property (nonatomic) NSSize offset;
+//@property (nonatomic) NSSize offset;
 
 -(NSSize)changeOffsetWithAngle:(float)angle AndDepth:(int)depth;
 

@@ -131,7 +131,7 @@
 +(CABasicAnimation *)movepoint:(CGPoint )point
 {
     CABasicAnimation *animation=[CABasicAnimation animationWithKeyPath:@"transform.translation"];
-    animation.toValue=[NSValue valueWithPoint:point];
+    animation.toValue=[NSValue valueWithPoint:NSPointFromCGPoint(point)];
     animation.removedOnCompletion=NO;
     animation.fillMode=kCAFillModeForwards;
     animation.duration=8.0f;

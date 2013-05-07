@@ -23,7 +23,7 @@ int timercount = 0;
     {
         self.imgArray = [NSMutableArray array];
         fileManager = [NSFileManager defaultManager];
-        self.frame = [NSScreen mainScreen].frame;
+        self.frame = NSRectToCGRect([NSScreen mainScreen].frame);
         [self getImagesByPath:path WeatherRecursion:recursion];
     }
     return self;
@@ -94,7 +94,7 @@ int timercount = 0;
     float x = ([NSScreen mainScreen].frame.size.width - img.size.width) / 2;
     float y = ([NSScreen mainScreen].frame.size.height - img.size.height) / 2;
     CALayer *sublayer = [CALayer layer];
-    sublayer.frame = NSMakeRect(x, y, img.size.width, img.size.height);
+    sublayer.frame = CGRectMake(x, y, img.size.width, img.size.height);
     
     //CABasicAnimation *fi = [BasicAnimationFatory fadeInAnimationDuration:1.0f];
     CABasicAnimation *fo = [BasicAnimationFatory fadeOutAnimationDuration:2.0f BeginTime:delay+6.0f];

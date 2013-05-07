@@ -11,7 +11,7 @@
 
 @implementation DCShadow
 
-@synthesize offset;
+//@synthesize offset;
 
 -(id)init
 {

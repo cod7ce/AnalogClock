@@ -111,7 +111,7 @@ NSString *Account = @"cod7ce@gmail.com";
     
     containerLayer = [CALayer layer];
     containerLayer.backgroundColor = CGColorCreateGenericRGB(1.0f, 1.0f, 1.0f, 1.0f);
-    containerLayer.bounds = frame;
+    containerLayer.bounds = NSRectToCGRect(frame);
     
     // ----------------------------------------------------------------------------------
     ScreenSaverDefaults *defaults = [ScreenSaverDefaults defaultsForModuleWithName:ModuleName];
@@ -123,34 +123,34 @@ NSString *Account = @"cod7ce@gmail.com";
     
     clockLayer = [CALayer layer];
     NSRect containerFrame = NSMakeRect((frame.size.width-CONTAINER_WIDTH)/2, (frame.size.height-CONTAINER_HEIGHT)/2, CONTAINER_WIDTH, CONTAINER_HEIGHT);
-    clockLayer.frame = containerFrame;
+    clockLayer.frame = NSRectToCGRect(containerFrame);
     //clockLayer.position = NSMakePoint(CONTAINER_WIDTH/2+15.0, CONTAINER_HEIGHT/2);
-    clockLayer.anchorPoint = NSMakePoint(0.501, 0.5);
+    clockLayer.anchorPoint = CGPointMake(0.501, 0.5);
     
     hourHand = [CALayer layer];
     hourHand.position = CGPointMake((CONTAINER_WIDTH-HOUR_WIDTH)/2+HOUR_DRIFT, CONTAINER_HEIGHT/2);
-    hourHand.anchorPoint = NSMakePoint(0.5, 0.25);
-    hourHand.bounds = NSMakeRect(0,0, HOUR_WIDTH, HOUR_HEIGHT);
+    hourHand.anchorPoint = CGPointMake(0.5, 0.25);
+    hourHand.bounds = CGRectMake(0,0, HOUR_WIDTH, HOUR_HEIGHT);
     hourHand.shadowColor = myShadowColor;
-    hourHand.shadowOffset = NSMakeSize(-3.0, 3.0);
+    hourHand.shadowOffset = CGSizeMake(-3.0, 3.0);
     hourHand.shadowRadius = 1.5;
     hourHand.shadowOpacity = 0.4;
     
     minHand = [CALayer layer];
     minHand.position = CGPointMake((CONTAINER_WIDTH - MIN_WIDTH)/2+MIN_DRIFT, CONTAINER_HEIGHT/2);
-    minHand.anchorPoint = NSMakePoint(0.5, 0.22);
-    minHand.bounds = NSMakeRect(0, 0, MIN_WIDTH, MIN_HEIGHT);
+    minHand.anchorPoint = CGPointMake(0.5, 0.22);
+    minHand.bounds = CGRectMake(0, 0, MIN_WIDTH, MIN_HEIGHT);
     minHand.shadowColor = myShadowColor;
-    minHand.shadowOffset = NSMakeSize(-4.0, 4.0);
+    minHand.shadowOffset = CGSizeMake(-4.0, 4.0);
     minHand.shadowRadius = 1.5;
     minHand.shadowOpacity = 0.4;
     
     secHand = [CALayer layer];
     secHand.position = CGPointMake((CONTAINER_WIDTH-SEC_WIDTH)/2+SEC_DRIFT, CONTAINER_HEIGHT/2);
-    secHand.anchorPoint = NSMakePoint(0.5, 0.23);
-    secHand.bounds = NSMakeRect(0, 0, SEC_WIDTH, SEC_HEIGHT);
+    secHand.anchorPoint = CGPointMake(0.5, 0.23);
+    secHand.bounds = CGRectMake(0, 0, SEC_WIDTH, SEC_HEIGHT);
     secHand.shadowColor = myShadowColor;
-    secHand.shadowOffset = NSMakeSize(-5.0, 5.0);
+    secHand.shadowOffset = CGSizeMake(-5.0, 5.0);
     secHand.shadowRadius = 1.5;
     secHand.shadowOpacity = 0.4;
     
@@ -201,9 +201,9 @@ NSString *Account = @"cod7ce@gmail.com";
 	CGFloat hourAngle = [self degrees2Radians:(hours/12.0*360+180)]+ [self degrees2Radians:(minutes/60.0*360)]/12.0;
     
     //set shadowOffset for
-    secHand.shadowOffset = [shadowTool changeOffsetWithAngle:seconds/60.0*360 AndDepth:20];
-    minHand.shadowOffset = [shadowTool changeOffsetWithAngle:minutes/60.0*360 AndDepth:18];
-    hourHand.shadowOffset= [shadowTool changeOffsetWithAngle:(hours/12.0*360+(minutes/60.0*360)/12) AndDepth:16];
+    secHand.shadowOffset = NSSizeToCGSize([shadowTool changeOffsetWithAngle:seconds/60.0*360 AndDepth:20]);
+    minHand.shadowOffset = NSSizeToCGSize([shadowTool changeOffsetWithAngle:minutes/60.0*360 AndDepth:18]);
+    hourHand.shadowOffset= NSSizeToCGSize([shadowTool changeOffsetWithAngle:(hours/12.0*360+(minutes/60.0*360)/12) AndDepth:16]);
     
 	//reflect the rotations + 180 degres since CALayers coordinate system is inverted
 	secHand.transform   = CATransform3DMakeRotation (M_PI-secAngle, 0, 0, 1);
@@ -262,11 +262,11 @@ NSString *Account = @"cod7ce@gmail.com";
 {
     editorLayer = [CALayer layer];
     NSSize screenSize = [NSScreen mainScreen].frame.size;
-    editorLayer.frame = NSMakeRect(screenSize.width - 210, screenSize.height - 59, 200, 49);
+    editorLayer.frame = CGRectMake(screenSize.width - 210, screenSize.height - 59, 200, 49);
     editorLayer.backgroundColor = CGColorCreateGenericRGB(1.0f, 1.0f, 1.0f, 1.0f);
     editorLayer.opacity = 0.9f;
     editorLayer.shadowColor = CGColorCreateGenericRGB(0.0f, 0.0f, 0.0f, 1.0f);
-    editorLayer.shadowOffset = NSMakeSize(3.0, -3.0);
+    editorLayer.shadowOffset = CGSizeMake(3.0, -3.0);
     editorLayer.shadowRadius = 1.5;
     editorLayer.shadowOpacity = 0.4;
     editorLayer.cornerRadius = 2.0f;
@@ -275,13 +275,13 @@ NSString *Account = @"cod7ce@gmail.com";
     [editorLayer addAnimation:fadeout forKey:@"hideeditorpanel"];
     
     CALayer *avatarLayer = [CALayer layer];
-    avatarLayer.frame = NSMakeRect(2, 2, 45, 45);
+    avatarLayer.frame = CGRectMake(2, 2, 45, 45);
     NSString *avatar  = [bundle pathForResource:@"avatar_64" ofType:@"jpg"];
     avatarLayer.contents = [[NSImage alloc] initWithContentsOfFile:avatar];
     avatarLayer.cornerRadius = 1.5f;
     
     CALayer *socialLayer = [CALayer layer];
-    socialLayer.frame = NSMakeRect(52, 0, 85, 25);
+    socialLayer.frame = CGRectMake(52, 0, 85, 25);
     NSString *social  = [bundle pathForResource:@"social" ofType:@"png"];
     socialLayer.contents = [[NSImage alloc] initWithContentsOfFile:social];
 
@@ -291,10 +291,10 @@ NSString *Account = @"cod7ce@gmail.com";
     [accountLayer setFontSize:14.0f];
     accountLayer.foregroundColor = CGColorCreateGenericRGB(0.0f, 0.0f, 0.0f, 1.0f);
     accountLayer.shadowColor = CGColorCreateGenericRGB(0.0f, 0.0f, 0.0f, 1.0f);
-    accountLayer.shadowOffset = NSMakeSize(0.5, -0.5);
+    accountLayer.shadowOffset = CGSizeMake(0.5, -0.5);
     accountLayer.shadowRadius = 0.5;
     accountLayer.shadowOpacity = 0.4;
-    accountLayer.frame = NSMakeRect(59, 24, 170, 18);
+    accountLayer.frame = CGRectMake(59, 24, 170, 18);
     
     [editorLayer addSublayer:avatarLayer];
     [editorLayer addSublayer:socialLayer];
