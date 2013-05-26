@@ -9,7 +9,7 @@ AnalogClock is a ScreenSaver on Mac OS X.
 
 ## Install
 
-- download the AnalogClock from [here]()
+- download the AnalogClock from [here](http://pan.baidu.com/share/link?shareid=630291&uk=1562291124)
 - double click AnalogClock.screensaver, and enjoy it
 
 ## Configure
