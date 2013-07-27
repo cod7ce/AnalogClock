@@ -14,7 +14,7 @@ AnalogClock is a ScreenSaver on Mac OS X.
 
 ## Configure
 
-There are three option for AnalogClock.
+There are three options for AnalogClock.
 
 - Gallery Path: 
 - Recursion:
@@ -27,4 +27,4 @@ Licenced under the MIT Licence.
 ## Support
 
 - if you have any idea for AnalogClock, submit to issues
-- ok, Any apps likely to be bugs, so, if you find them, submit to issues
+- ok, Any apps mignt have some bugs, so, if you find them, plz remind me through issues.
